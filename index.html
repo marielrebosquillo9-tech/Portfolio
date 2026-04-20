@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile | Personal Website</title>
+    <title>User Profile | Mariel Rebosquillo</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         :root {
             --bg-color: #0d0d0f;
             --accent-color: #00ff9d; 
+            --secondary-accent: #2196F3;
             --text-main: #e2e8f0;
             --text-muted: #94a3b8;
             --border: rgba(0, 255, 157, 0.15);
         }
 
+        /* --- Global Reset --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
@@ -22,119 +28,525 @@
             line-height: 1.6;
             background-image: radial-gradient(circle at 2px 2px, var(--border) 1px, transparent 0);
             background-size: 40px 40px;
+            scroll-behavior: smooth;
         }
 
-        nav { padding: 1.5rem 8%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; }
-        .logo { font-family: 'Space Mono', monospace; font-weight: bold; color: var(--accent-color); text-transform: uppercase; }
+        /* --- Navigation --- */
+        nav { 
+            padding: 1.5rem 8%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border); 
+            backdrop-filter: blur(12px); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            background: rgba(13, 13, 15, 0.8);
+        }
+        .logo { font-family: 'Space Mono', monospace; font-weight: bold; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; }
 
-        header { padding: 6rem 8% 2rem 8%; text-align: center; }
-        header h1 { font-family: 'Space Mono', monospace; font-size: 3.5rem; color: var(--accent-color); margin-bottom: 0.5rem; }
+        /* --- Header --- */
+        header { padding: 6rem 8% 4rem 8%; text-align: center; }
+        header h1 { font-family: 'Space Mono', monospace; font-size: clamp(2rem, 8vw, 3.5rem); color: var(--accent-color); margin-bottom: 0.5rem; }
+        .links { display: flex; justify-content: center; gap: 30px; margin-top: 2rem; font-family: 'Space Mono'; flex-wrap: wrap; }
+        .links a { color: var(--text-main); text-decoration: none; border-bottom: 1px solid var(--accent-color); padding-bottom: 5px; font-size: 0.8rem; transition: 0.3s; }
+        .links a:hover { color: var(--accent-color); background: rgba(0, 255, 157, 0.1); }
         
-        section { padding: 4rem 8%; border-top: 1px solid var(--border); }
-        h2 { font-family: 'Space Mono', monospace; font-size: 1.5rem; margin-bottom: 2rem; color: var(--accent-color); border-left: 4px solid var(--accent-color); padding-left: 1rem; }
+        /* --- Sections --- */
+        section { padding: 5rem 8%; border-top: 1px solid var(--border); }
+        h2 { font-family: 'Space Mono', monospace; font-size: 1.5rem; margin-bottom: 3rem; color: var(--accent-color); border-left: 4px solid var(--accent-color); padding-left: 1rem; text-transform: uppercase; }
 
-        /* Personal Info Grid */
-        .info-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; }
-        
-        .profile-card { border: 1px solid var(--border); padding: 10px; background: #000; position: relative; }
-        .profile-card img { width: 100%; display: block; filter: grayscale(100%); }
-        
-        .specs-table { width: 100%; font-family: 'Space Mono', monospace; border-collapse: collapse; margin-top: 1rem; }
-        .specs-table td { padding: 10px; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-        .specs-table .label { color: var(--accent-color); width: 35%; }
+        /* --- Grid Layouts --- */
+        .info-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: start; }
+        .module-grid, .achievement-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
 
-        /* Skills/Module Grid */
-        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
-        .module { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 1.5rem; }
+        /* --- Profile Card --- */
+        .profile-card { border: 1px solid var(--border); padding: 15px; background: #000; position: relative; cursor: pointer; transition: 0.3s; }
+        .profile-card:hover { border-color: var(--accent-color); box-shadow: 0 0 15px var(--border); }
+        .profile-card img { width: 100%; display: block; filter: grayscale(100%); transition: 0.4s; }
+        .profile-card:hover img { filter: none; transform: scale(1.02); }
+
+        .specs-table { width: 100%; font-family: 'Space Mono', monospace; border-collapse: collapse; }
+        .specs-table td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+        .specs-table .label { color: var(--accent-color); width: 35%; font-weight: bold; }
+
+        .module { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 1.5rem; transition: 0.3s; }
+        .module:hover { border-color: var(--accent-color); background: rgba(0, 255, 157, 0.05); }
         .module h3 { font-family: 'Space Mono'; font-size: 0.9rem; margin-bottom: 10px; color: var(--accent-color); }
-        .module p { font-size: 0.8rem; color: var(--text-muted); }
+        .module p { font-size: 0.85rem; color: var(--text-muted); }
 
-        .links { display: flex; justify-content: center; gap: 30px; margin-top: 2rem; font-family: 'Space Mono'; }
-        .links a { color: var(--text-main); text-decoration: none; border-bottom: 1px solid var(--accent-color); padding-bottom: 5px; }
-        
-        footer { text-align: center; padding: 4rem; font-family: 'Space Mono'; font-size: 0.7rem; opacity: 0.5; }
+        /* --- Platform Grid --- */
+        .platform-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 20px; list-style: none; margin-top: 2rem; }
+        .platform-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 1.5rem; text-align: center; transition: 0.3s; }
+        .platform-item:hover { border-color: var(--accent-color); transform: translateY(-5px); }
+        .icon-box img { width: 45px; height: 45px; margin-bottom: 10px; filter: grayscale(1); transition: 0.3s; }
+        .platform-item:hover .icon-box img { filter: none; }
+        .platform-item span { display: block; font-family: 'Space Mono'; font-size: 0.75rem; color: var(--text-muted); }
 
-        @media (max-width: 850px) { .info-grid { grid-template-columns: 1fr; } }
+        /* --- Video Section --- */
+        .video-wrapper { max-width: 800px; margin: 0 auto 3rem auto; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid var(--border); background: #000; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        /* --- Buttons --- */
+        .button-container { display: flex; gap: 15px; margin-top: 25px; font-family: 'Space Mono'; flex-wrap: wrap; }
+        .btn { padding: 12px 24px; text-decoration: none; font-size: 0.8rem; font-weight: bold; border: 1px solid var(--accent-color); transition: 0.3s; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; }
+        .view-btn { background: transparent; color: var(--accent-color); }
+        .view-btn:hover { background: var(--accent-color); color: #000; }
+        .download-btn { background: var(--secondary-accent); color: white; border-color: var(--secondary-accent); }
+        .download-btn:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* --- Contact Cards --- */
+        .contact-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; max-width: 1000px; margin: auto; }
+        .contact-link { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-radius: 4px; text-decoration: none; font-family: 'Space Mono'; color: #e2e8f0; background: rgba(255,255,255,0.03); border: 1px solid var(--border); transition: 0.3s; }
+        .contact-link:hover { transform: translateY(-5px); border-color: var(--accent-color); background: rgba(0, 255, 157, 0.05); }
+        .contact-link .icon { font-size: 1.4rem; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); }
+        .contact-text strong { font-size: 0.85rem; color: var(--accent-color); display: block; }
+        .contact-text p { font-size: 0.7rem; color: var(--text-muted); }
+
+        /* --- Lightbox --- */
+        #lightbox { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); justify-content: center; align-items: center; }
+        #lightbox img { max-width: 90%; max-height: 80%; border: 2px solid var(--accent-color); box-shadow: 0 0 30px rgba(0, 255, 157, 0.3); }
+        #lightbox:target { display: flex; }
+        .close-lightbox { position: absolute; top: 20px; right: 30px; color: var(--accent-color); font-size: 2.5rem; text-decoration: none; font-family: 'Space Mono'; }
+
+        /* --- Footer --- */
+        footer { text-align: center; padding: 4rem; font-family: 'Space Mono'; font-size: 0.75rem; opacity: 0.6; border-top: 1px solid var(--border); letter-spacing: 1px; }
+
+        /* Responsive Fixes */
+        @media (max-width: 850px) { .info-grid { grid-template-columns: 1fr; text-align: center; } .specs-table { margin: 2rem auto; } .button-container { justify-content: center; } }
     </style>
 </head>
 <body>
 
     <nav>
         <div class="logo">IDENTITY://CORE</div>
-        <div style="font-family: 'Space Mono'; font-size: 0.8rem;">OS_v3.0.4</div>
+        <div style="font-family: 'Space Mono'; font-size: 0.8rem; color: var(--text-muted);">OS_v3.0.4 <span style="color: var(--accent-color); animation: blink 1.5s infinite;">● ONLINE</span></div>
     </nav>
+
+    <div id="lightbox" onclick="window.location.hash='#'">
+        <a href="#" class="close-lightbox">&times;</a>
+        <img id="lightbox-img" src="" alt="Enlarged View">
+    </div>
 
     <header>
         <h1>Mariel Rebosquillo</h1>
-        <p style="font-family: 'Space Mono'; color: var(--text-muted);">[ BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY]</p>
+        <p style="font-family: 'Space Mono'; color: var(--text-muted); letter-spacing: 2px;">[ BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY ]</p>
         <div class="links">
-            <a href="mailto:email@example.com">1st PERSONAL WEBSITE</a>
-            <a href="#">2nd PERSONAL WEBSITE</a>
-            <a href="#">E-COMMERCE</a>     
+            <a href="https://canva.link/frv1nveic567ox6">PERSONAL_WEB_v1</a>
+            <a href="https://www.figma.com/proto/EQoxoZ9oF6Thd8HUG3vUZY/Untitled?node-id=1-2&starting-point-node-id=1%3A2&t=5jCVdPu5oUit0aMt-1">PERSONAL_WEB_v2</a>
+            <a href="https://www.figma.com/design/pvg4QG4kcv47uFeBXnoZjB/Untitled?node-id=0-1&t=FcWZWaS1csFV4IZM-1">E-COMMERCE_UI</a> 
+        </div>    
     </header>
 
-    <section id="personal-info">
-        <h2>ABOUT ME</h2>
+    <section id="about">
+        <h2>ABOUT_ME</h2>
         <div class="info-grid">
-            <div class="profile-card">
-                <img src="Yi Smith.jpg" alt="Profile">
-                <div style="padding: 50px; font-family: 'Space Mono'; font-size: 0.7rem;">
-                    <p style="color: var(--accent-color);">STATUS: ONLINE</p>
-                    <p>LAST_SYNC: 2026.04.08</p>
+            <div class="profile-card-container" style="text-align: center;">
+                <div onclick="openLightbox(this)" style="cursor:pointer; width: 280px; height: 280px; margin: 0 auto; border-radius: 50%; padding: 5px; background: linear-gradient(45deg, var(--accent-color), transparent); transition: 0.4s;">
+                    <img src="Yi Smith.jpg" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; filter: grayscale(100%); border: 3px solid #000;">
+                </div>
+                <div style="padding: 20px; font-family: 'Space Mono'; font-size: 0.75rem; margin-top: 10px;">
+                    <p style="color: var(--accent-color); margin-bottom: 5px;">STATUS: SINGLE MOM / DEVELOPER</p>
+                    <p>LAST_SYNC: 2026.04.15</p>
                 </div>
             </div>
             
             <div class="details">
                 <table class="specs-table">
                     <tr><td class="label">LOCATION</td><td>MOISES PADILLA, PHILIPPINES</td></tr>
-                    <tr><td class="label">EDUCATION</td><td>BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY</td></tr>
-                    
+                    <tr><td class="label">EDUCATION</td><td>BS IN INFORMATION TECHNOLOGY</td></tr>
                     <tr><td class="label">LANGUAGES</td><td>English, Hiligaynon, Tagalog</td></tr>
-                    
                 </table>
-                <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+                <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.95rem; font-style: italic;">
                    ​"Success in IT isn't just about writing perfect code; it’s about having the patience to fix the same 'undefined' error for the fifth time without losing your mind."
-                    
                 </p>
+
+                <div class="button-container">
+                    <a href="Lan.pdf" target="_blank" class="btn view-btn"><i class="fas fa-eye"></i> VIEW RESUME</a>
+                    <a href="resume.pdf" download class="btn download-btn"><i class="fas fa-download"></i> DOWNLOAD</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="cognitive-modules">
-        <h2>CORE_MODULES (SKILLS)</h2>
+    <section id="skills">
+        <h2>CORE_MODULES</h2>
         <div class="module-grid">
             <div class="module">
-                <h3>01. INTERACTIVE THINKING </h3>
-                <p>Understanding that "Failure 1.0" is just a necessary stepping stone toward "Success 2.0," a core concept in both software and hardware prototyping.<</p>
+                <h3>01. INTERACTIVE THINKING</h3>
+                <p>Understanding that "Failure 1.0" is just a stepping stone toward "Success 2.0."</p>
             </div>
             <div class="module">
-                <h3>02. PATERN RECOGNATION</h3>
-                <p>Even if you don't "know" the code yet, you are learning to recognize how structures look, making it easier to spot "ugly" or broken logic over time.</p>
+                <h3>02. PATTERN RECOGNITION</h3>
+                <p>Identifying structural logic and aesthetic flow to spot anomalies quickly.</p>
             </div>
             <div class="module">
-                <h3>03. METICULOUS ATTENTION TO DETAIL</h3>
-                <p>Developing the "eagle eyes" required to catch the tiny typos, missing brackets, or misplaced commas that others usually overlook.</p>
+                <h3>03. METICULOUS DETAIL</h3>
+                <p>Developing the "eagle eyes" required to catch typos or misplaced brackets.</p>
             </div>
             <div class="module">
                 <h3>04. LOGICAL TROUBLESHOOTING</h3>
-                <p>The ability to systematically isolate a problem by changing one variable at a time until you find the source of the failure.</p>
+                <p>Systematically isolating problems by variable control and stack tracing.</p>
             </div>
         </div>
     </section>
 
+    <section id="achievements">
+        <h2>ACHIEVEMENTS</h2>
+        <div class="achievement-grid">
+            <div class="profile-card" onclick="openLightbox(this)">
+                <img src="Yi Smith.jpg" alt="T-Shirt Layout">
+                <div style="padding: 10px; font-family: 'Space Mono'; font-size: 0.7rem; border-top: 1px solid var(--border); margin-top: 10px;">
+                    <p style="color: var(--accent-color);">01 // T-SHIRT LAYOUT</p>
+                    <span style="color: var(--text-muted);">TOOL: ADOBE PHOTOSHOP</span>
+                </div>
+            </div>
+            <div class="profile-card" onclick="openLightbox(this)">
+                <img src="Chess.webp" alt="Chess Board Design">
+                <div style="padding: 10px; font-family: 'Space Mono'; font-size: 0.7rem; border-top: 1px solid var(--border); margin-top: 10px;">
+                    <p style="color: var(--accent-color);">02 // CHESS DESIGN</p>
+                    <span style="color: var(--text-muted);">TOOL: DIGITAL ART</span>
+                </div>
+            </div>
+            <div class="profile-card" onclick="openLightbox(this)">
+                <img src="Poster.webp" alt="Poster Making">
+                <div style="padding: 10px; font-family: 'Space Mono'; font-size: 0.7rem; border-top: 1px solid var(--border); margin-top: 10px;">
+                    <p style="color: var(--accent-color);">03 // POSTER MAKING</p>
+                    <span style="color: var(--text-muted);">TOOL: GRAPHIC DESIGN</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certificates">
+        <h2>CERTIFICATES</h2>
+        <div class="achievement-grid">
+            <div class="profile-card" onclick="openLightbox(this)">
+                <img src="Ms.jpg" alt="Cisco Fundamentals">
+                <div style="padding: 10px; font-family: 'Space Mono'; font-size: 0.7rem;">
+                    <p style="color: var(--accent-color);">CISCO NETWORKING FUNDAMENTALS</p>
+                </div>
+            </div>
+            <div class="profile-card" onclick="openLightbox(this)">
+                <img src="Ml.jpg" alt="Innovative Solution">
+                <div style="padding: 10px; font-family: 'Space Mono'; font-size: 0.7rem;">
+                    <p style="color: var(--accent-color);">INNOVATIVE SYSTEMATIC SOLUTIONS</p>
+                </div>
+            </div>
+            <div class="profile-card" onclick="openLightbox(this)">
+                <img src="Mar.jpg" alt="IT Seminar">
+                <div style="padding: 10px; font-family: 'Space Mono'; font-size: 0.7rem;">
+                    <p style="color: var(--accent-color);">IT SEMINAR SERIES</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="platforms">
+        <h2>APPLICATIONS </h2>
+        <ul class="platform-grid">  
+            <li class="platform-item">
+                <div class="icon-box"><img src="PR.png" alt="Premiere"></div>
+                <span>Premiere</span>
+            </li>  
+            <li class="platform-item">
+                <div class="icon-box"><img src="figma.png" alt="Figma"></div>
+                <span>Figma</span>
+            </li>  
+            <li class="platform-item">
+                <div class="icon-box"><img src="PS.png" alt="Photoshop"></div>
+                <span>Photoshop</span>
+            </li>  
+            <li class="platform-item">
+                <div class="icon-box"><img src="Canva.png" alt="Canva"></div>
+                <span>Canva</span>
+            </li>  
+        </ul>  
+    </section>
+
     <section id="hobbies">
-        <h2> MY PERSONAL HOBBIES</h2>
-        <div style="display: flex; flex-wrap: wrap; gap: 10px; font-family: 'Space Mono';">
-            <span style="border: 1px solid var(--border); padding: 5px 15px;">READING</span>
-            <span style="border: 1px solid var(--border); padding: 5px 15px;">LISTENING A MUSIC</span>
-            <span style="border: 1px solid var(--border); padding: 5px 15px;">TRAVELING</span>
-            <span style="border: 1px solid var(--border); padding: 5px 15px;">COOKING</span>
+        <h2>PERSONAL_HOBBIES</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 15px; font-family: 'Space Mono';">
+            <span style="border: 1px solid var(--border); padding: 8px 20px; background: rgba(0,255,157,0.05);">READING</span>
+            <span style="border: 1px solid var(--border); padding: 8px 20px; background: rgba(0,255,157,0.05);">MUSIC</span>
+            <span style="border: 1px solid var(--border); padding: 8px 20px; background: rgba(0,255,157,0.05);">TRAVELING</span>
+            <span style="border: 1px solid var(--border); padding: 8px 20px; background: rgba(0,255,157,0.05);">COOKING</span>
+        </div>
+    </section>
+
+    <section id="videos">
+        <h2>VIDEO_TUTORIALS</h2>
+        <div class="video-wrapper">
+            <p style="font-family: 'Space Mono'; color: var(--accent-color); margin-bottom: 15px;">> CANVA_PROCESS.mp4</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Canva Tutorial" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="video-wrapper">
+            <p style="font-family: 'Space Mono'; color: var(--accent-color); margin-bottom: 15px;">> FIGMA_LAYOUT.mp4</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/jQ1sfKIl50E" title="Figma Tutorial" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>CONTACT_ME</h2>
+        <div style="max-width: 700px; margin: auto;">
+            <form id="contactForm" onsubmit="sendMessage(event)">
+                <div style="margin-bottom: 20px;">
+                    <label style="font-family: 'Space Mono'; font-size: 0.7rem; color: var(--accent-color);">[ NAME ]</label>
+                    <input type="text" id="name" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: #fff; outline: none; margin-top: 5px;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="font-family: 'Space Mono'; font-size: 0.7rem; color: var(--accent-color);">[ EMAIL ]</label>
+                    <input type="email" id="email" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: #fff; outline: none; margin-top: 5px;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="font-family: 'Space Mono'; font-size: 0.7rem; color: var(--accent-color);">[ MESSAGE ]</label>
+                    <textarea id="message" rows="5" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: #fff; outline: none; margin-top: 5px;"></textarea>
+                </div>
+                <button type="submit" class="btn view-btn" style="width: 100%; justify-content: center;">ESTABLISH CONNECTION</button>
+                <p id="status" style="margin-top: 15px; font-size: 0.8rem; color: var(--text-muted); text-align: center; font-family: 'Space Mono';"></p>
+            </form>
+        </div>
+    </section>
+
+    <section id="contact-links">
+        <h2>CONNECT_WITH_ME</h2>
+        <div class="contact-wrapper">
+            <a href="https://www.facebook.com/share/1dQfd6dtMZ/" target="_blank" class="contact-link">
+                <i class="fab fa-facebook-f icon"></i>
+                <div class="contact-text">
+                    <strong>FACEBOOK</strong>
+                    <p>/mariel.rebosquillo</p>
+                </div>
+            </a>
+            <a href="https://instagram.com/yourprofile" target="_blank" class="contact-link">
+                <i class="fab fa-instagram icon"></i>
+                <div class="contact-text">
+                    <strong>INSTAGRAM</strong>
+                    <p>@mariel</p>
+                </div>
+            </a>
+            <a href="https://tiktok.com/@yourprofile" target="_blank" class="contact-link">
+                <i class="fab fa-tiktok icon"></i>
+                <div class="contact-text">
+                    <strong>TIKTOK</strong>
+                    <p>@mariel</p>
+                </div>
+            </a>
+            <a href="tel:+639931163449" class="contact-link">
+                <i class="fas fa-phone icon"></i>
+                <div class="contact-text">
+                    <strong>MOBILE</strong>
+                    <p>+63 993 116 3449</p>
+                </div>
+            </a>
         </div>
     </section>
 
     <footer>
-        <p>TERMINAL_OFFLINE // 2026 // BUILT BY YOUR NAME</p>
+        <p>TERMINAL_OFFLINE // 2026 // BUILT BY MARIEL REBOSQUILLO</p>
     </footer>
+
+    <script>
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            if(img) {
+                document.getElementById('lightbox-img').src = img.src;
+                window.location.hash = 'lightbox';
+            }
+        }
+
+        function sendMessage(event) {
+            event.preventDefault();
+            const status = document.getElementById('status');
+            status.innerHTML = "> SENDING ENCRYPTED DATA...";
+            setTimeout(() => {
+                status.innerHTML = "> CONNECTION ESTABLISHED. MESSAGE RECEIVED.";
+                document.getElementById('contactForm').reset();
+            }, 2000);
+        }
+    </script>
+    <!-- ADD THIS BEFORE </body> -->
+
+<!-- ================= CHATBOT ================= -->
+<style>
+/* Chatbot Widget */
+#chatbot-toggle{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:var(--accent-color);
+    color:#000;
+    border:none;
+    font-size:1.5rem;
+    cursor:pointer;
+    z-index:9999;
+    box-shadow:0 0 20px rgba(0,255,157,0.3);
+}
+
+#chatbot-box{
+    position:fixed;
+    bottom:95px;
+    right:25px;
+    width:340px;
+    max-height:500px;
+    background:#0d0d0f;
+    border:1px solid var(--border);
+    display:none;
+    flex-direction:column;
+    z-index:9999;
+    overflow:hidden;
+    box-shadow:0 0 25px rgba(0,255,157,0.15);
+}
+
+#chatbot-header{
+    padding:15px;
+    background:rgba(0,255,157,0.08);
+    font-family:'Space Mono';
+    color:var(--accent-color);
+    border-bottom:1px solid var(--border);
+}
+
+#chatbot-messages{
+    flex:1;
+    padding:15px;
+    overflow-y:auto;
+    font-size:0.85rem;
+}
+
+.bot-msg,.user-msg{
+    margin-bottom:12px;
+    padding:10px 12px;
+    border-radius:8px;
+    max-width:85%;
+}
+
+.bot-msg{
+    background:rgba(255,255,255,0.04);
+    color:#fff;
+}
+
+.user-msg{
+    background:var(--accent-color);
+    color:#000;
+    margin-left:auto;
+}
+
+#chatbot-input-area{
+    display:flex;
+    border-top:1px solid var(--border);
+}
+
+#chatbot-input{
+    flex:1;
+    padding:12px;
+    background:#000;
+    border:none;
+    color:#fff;
+    outline:none;
+}
+
+#chatbot-send{
+    width:60px;
+    border:none;
+    background:var(--accent-color);
+    color:#000;
+    cursor:pointer;
+    font-weight:bold;
+}
+</style>
+
+<button id="chatbot-toggle">
+<i class="fas fa-robot"></i>
+</button>
+
+<div id="chatbot-box">
+    <div id="chatbot-header">AI_ASSISTANT://ONLINE</div>
+    <div id="chatbot-messages">
+        <div class="bot-msg">Hello! Ask me about Mariel's profile, skills, certificates, or projects.</div>
+    </div>
+
+    <div id="chatbot-input-area">
+        <input type="text" id="chatbot-input" placeholder="Type message...">
+        <button id="chatbot-send">></button>
+    </div>
+</div>
+
+<script>
+const toggleBtn = document.getElementById("chatbot-toggle");
+const chatbox = document.getElementById("chatbot-box");
+const sendBtn = document.getElementById("chatbot-send");
+const input = document.getElementById("chatbot-input");
+const messages = document.getElementById("chatbot-messages");
+
+toggleBtn.onclick = () => {
+    chatbox.style.display =
+    chatbox.style.display === "flex" ? "none" : "flex";
+};
+
+function addMessage(text,type){
+    const div = document.createElement("div");
+    div.className = type;
+    div.innerText = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function botReply(msg){
+    msg = msg.toLowerCase();
+
+    let reply = "Sorry, command not recognized.";
+
+    if(msg.includes("name")){
+        reply = "Her name is Mariel Rebosquillo.";
+    }
+    else if(msg.includes("skills")){
+        reply = "Skills: Interactive Thinking, Pattern Recognition, Detail Focus, Logical Troubleshooting.";
+    }
+    else if(msg.includes("certificate")){
+        reply = "Certificates include Cisco Networking Fundamentals, Innovative Systematic Solutions, and IT Seminar Series.";
+    }
+    else if(msg.includes("project")){
+        reply = "Projects include T-Shirt Layout, Chess Design, Poster Making, and UI Designs.";
+    }
+    else if(msg.includes("contact")){
+        reply = "You can contact her through Facebook, Instagram, TikTok, or Mobile Number.";
+    }
+    else if(msg.includes("hello") || msg.includes("hi")){
+        reply = "Hello! How can I help you today?";
+    }
+
+    setTimeout(()=>{
+        addMessage(reply,"bot-msg");
+    },500);
+}
+
+function sendChat(){
+    const text = input.value.trim();
+    if(text === "") return;
+
+    addMessage(text,"user-msg");
+    botReply(text);
+    input.value = "";
+}
+
+sendBtn.onclick = sendChat;
+
+input.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        sendChat();
+    }
+});
+</script>
+<!-- ================= END CHATBOT ================= -->
 
 </body>
 </html>
